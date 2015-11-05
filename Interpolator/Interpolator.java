@@ -17,6 +17,65 @@ public class Interpolator {
 
 	}
 
+	public static void interpolate() {
+		System.out.println("Commence interpolation...");
+		Polynomial[] polys = new Polynomial[numPoints];
+		for (int i = 0; i < numPoints; i++) {
+			Point currPoint = points.get(i);
+			ArrayList<Polynomial> subPolys = new ArrayList<Polynomial>();
+			int denom = 0;
+			for (int e = 0; e < numPoints; e++) { //this works
+				if (e != i) {
+					Point otherPoint = points.get(e);
+					denom += (currPoint.x - otherPoint.x);
+					Polynomial init = new Polynomial(1, 1);
+					init = init.sub(new Polynomial(otherPoint.x, 0));
+					System.out.println("subpoly " + init);
+					System.out.println("denom " + denom);
+					subPolys.add(init);
+				}
+			}
+			denom = adjustInt(denom);
+			System.out.println("New denom " + denom);
+			System.out.println("mult inv " + multInv(denom));
+			Polynomial finalPoly = new Polynomial(multInv(denom), 0);
+			System.out.println("init finalPoly (mult inv poly) " + finalPoly);
+			for (Polynomial p: subPolys) {
+				finalPoly = finalPoly.multiply(p);
+			}
+			System.out.println("finalPoly " + finalPoly);
+			polys[i] = finalPoly;
+		}
+
+		Polynomial realPoly = new Polynomial(0, numPoints - 1);
+		for (int y = 0; y < numPoints; y++) {
+			Point point = points.get(y);
+			Polynomial poly = polys[y];
+			realPoly = realPoly.add(poly.multiply(new Polynomial(point.x, 0)));
+		}
+
+		for (int z = 0; z < realPoly.coeff.length; z++) {
+			int co = realPoly.coeff[z];
+			realPoly.coeff[z] = adjustInt(co);
+		}
+
+		System.out.println("Here is your polynomial: " + realPoly);
+		
+		
+	}
+
+
+	//Make more effiecient later using Euclid's GCD algorithm
+	public static int multInv(int x) {
+		int a = 0;
+		for (int i = 1; i < mod; i++) {
+			if (adjustInt(x*i) == 1) {
+				a = i;
+			}
+		}
+		return a;
+	}
+
 	public static void getMod() {
 		System.out.println("Please enter a prime number as a mod to work under: ");
 		while (mod == 0) {
@@ -33,10 +92,6 @@ public class Interpolator {
 
 	public static void hello() {
 		System.out.println("Hello! This is a polynomial interpolator. ");
-	}
-
-	public static void interpolate() {
-		System.out.println("Commence interpolation...");
 	}
 
 	public static void getPoints() {
