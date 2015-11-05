@@ -1,9 +1,9 @@
 public class Polynomial {
-	int[] coeff;
+	double[] coeff;
 	int degree;
 
-	public Polynomial(int a, int b) {
-		coeff = new int[b + 1];
+	public Polynomial(double a, int b) {
+		coeff = new double[b + 1];
 		coeff[b] = a;
 		degree = getDegree();
 	}
@@ -11,13 +11,13 @@ public class Polynomial {
 	public int getDegree() {
 		int deg = 0;
 		for (int i = 0; i < coeff.length; i++) {
-			if (coeff[i] != 0) deg = i;
+			if (coeff[i] != 0.0) deg = i;
 		}
 		return deg;
 	}
 
 	public Polynomial add(Polynomial b) {
-		Polynomial c = new Polynomial(0, Math.max(this.degree, b.degree));
+		Polynomial c = new Polynomial(0.0, Math.max(this.degree, b.degree));
 		for (int i = 0; i <= this.degree; i++) {
 			c.coeff[i] += this.coeff[i];
 		}
@@ -29,7 +29,7 @@ public class Polynomial {
 	}
 
 	public Polynomial sub(Polynomial b) {
-		Polynomial c = new Polynomial(0, Math.max(this.degree, b.degree));
+		Polynomial c = new Polynomial(0.0, Math.max(this.degree, b.degree));
 		for (int i = 0; i <= this.degree; i++) {
 			c.coeff[i] += this.coeff[i];
 		}
