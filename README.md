@@ -9,6 +9,6 @@ Projects Include:
 	- optimal pairing that the algorithm produces.
 
 2. Polynomial Interpolator
-	- Given a number of points over a finite field (working over a prime
-	- modulus), this program will give you the unique polynomial that 
-	- is guaranteed to pass through those points.
+	- Given any number of points over a finite field (working over a prime
+	- modulus) or over the real numbers, this program will give you the 
+	- unique polynomial that is guaranteed to pass through those points.
