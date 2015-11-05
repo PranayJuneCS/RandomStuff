@@ -1,6 +1,7 @@
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.concurrent.TimeUnit;
 
 public class Interpolator {
 
@@ -19,39 +20,47 @@ public class Interpolator {
 
 	public static void interpolate() {
 		System.out.println("Commence interpolation...");
+		System.out.println("Calculating");
+		System.out.println(".");
+		System.out.println(".");
+		System.out.println(".");
+		System.out.println(".");
+		System.out.println(".");
+		System.out.println(".");
+		System.out.println(".");
+		System.out.println(".");
+		System.out.println(".");
+		try {
+			TimeUnit.SECONDS.sleep(1);
+		} catch (Exception e) {}
+		
 		Polynomial[] polys = new Polynomial[numPoints];
 		for (int i = 0; i < numPoints; i++) {
 			Point currPoint = points.get(i);
 			ArrayList<Polynomial> subPolys = new ArrayList<Polynomial>();
-			int denom = 0;
+			int denom = 1;
 			for (int e = 0; e < numPoints; e++) { //this works
 				if (e != i) {
 					Point otherPoint = points.get(e);
-					denom += (currPoint.x - otherPoint.x);
+					denom = denom * (currPoint.x - otherPoint.x);
 					Polynomial init = new Polynomial(1, 1);
 					init = init.sub(new Polynomial(otherPoint.x, 0));
-					System.out.println("subpoly " + init);
-					System.out.println("denom " + denom);
 					subPolys.add(init);
 				}
 			}
 			denom = adjustInt(denom);
-			System.out.println("New denom " + denom);
-			System.out.println("mult inv " + multInv(denom));
 			Polynomial finalPoly = new Polynomial(multInv(denom), 0);
-			System.out.println("init finalPoly (mult inv poly) " + finalPoly);
 			for (Polynomial p: subPolys) {
 				finalPoly = finalPoly.multiply(p);
 			}
-			System.out.println("finalPoly " + finalPoly);
 			polys[i] = finalPoly;
-		}
+		} 
 
-		Polynomial realPoly = new Polynomial(0, numPoints - 1);
+		Polynomial realPoly = new Polynomial(0, 0);
 		for (int y = 0; y < numPoints; y++) {
 			Point point = points.get(y);
 			Polynomial poly = polys[y];
-			realPoly = realPoly.add(poly.multiply(new Polynomial(point.x, 0)));
+			realPoly = realPoly.add(poly.multiply(new Polynomial(point.y, 0)));
 		}
 
 		for (int z = 0; z < realPoly.coeff.length; z++) {
