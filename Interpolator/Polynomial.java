@@ -52,9 +52,9 @@ public class Polynomial {
 	}
 
 	public String toString() {
-        if (degree ==  0) return "" + coeff[0];
-        if (degree ==  1) return coeff[1] + "x + " + coeff[0];
-        String s = coeff[degree] + "x^" + degree;
+        if (degree ==  0) return ("f(x) = " + coeff[0]);
+        if (degree ==  1) return ("f(x) = " + coeff[1] + "x + " + coeff[0]);
+        String s = "f(x) = " + coeff[degree] + "x^" + degree;
         for (int i = degree-1; i >= 0; i--) {
             if      (coeff[i] == 0) continue;
             else if (coeff[i]  > 0) s = s + " + " + ( coeff[i]);
